@@ -69,7 +69,7 @@
 .infrastructure__card-image img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   transition: var(--transition-slow);
 }
@@ -104,33 +104,55 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(10px);
-  padding: 32px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   opacity: 0;
   transition: var(--transition-normal);
   pointer-events: none;
+  overflow-y: auto;
 }
 
 .infrastructure__card:hover .infrastructure__card-overlay {
   opacity: 1;
+  pointer-events: auto;
 }
 
 .infrastructure__card-overlay-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   line-height: 1.3;
   color: var(--white);
-  margin: 0 0 16px 0;
+  margin: 0 0 12px 0;
+  flex-shrink: 0;
 }
 
 .infrastructure__card-overlay-text {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 1.6;
   color: var(--gray-300);
   margin: 0;
+}
+
+/* Кастомный скроллбар для оверлея */
+.infrastructure__card-overlay::-webkit-scrollbar {
+  width: 6px;
+}
+
+.infrastructure__card-overlay::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.infrastructure__card-overlay::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.infrastructure__card-overlay::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 @media (max-width: 1400px) {
@@ -170,15 +192,15 @@
   }
 
   .infrastructure__card-overlay {
-    padding: 24px;
+    padding: 20px;
   }
 
   .infrastructure__card-overlay-title {
-    font-size: 18px;
+    font-size: 17px;
   }
 
   .infrastructure__card-overlay-text {
-    font-size: 14px;
+    font-size: 13px;
   }
 }
 
@@ -222,6 +244,7 @@
     background: rgba(0, 0, 0, 0.5);
     padding: 20px;
     border-top: 1px solid var(--card-border);
+    overflow-y: visible;
   }
 
   .infrastructure__card-overlay-title {
