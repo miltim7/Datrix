@@ -10,6 +10,7 @@
   opacity: 0;
   transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity, transform;
 }
 
 /* Fade Up - появление снизу вверх */
@@ -72,7 +73,7 @@
   transform: rotate(0deg) scale(1);
 }
 
-/* Специальные эффекты для hero - убираем transform после анимации */
+/* Специальные эффекты для hero */
 .hero__content.fade-up {
   transform: translateY(80px);
   transition-duration: 1s;
@@ -80,7 +81,7 @@
 
 .hero__content.fade-up.animate-in {
   opacity: 1;
-  transform: none !important;
+  transform: translateY(0);
 }
 
 /* Специальные эффекты для заголовков секций */
@@ -91,7 +92,8 @@
 
 .solution-section__title.fade-down.animate-in,
 .infrastructure__header.fade-down.animate-in {
-  transform: none !important;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Специальные эффекты для карточек */
@@ -100,7 +102,8 @@
 }
 
 .infrastructure__card.fade-up.animate-in {
-  transform: none !important;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .solution-section__advantage.scale-in {
@@ -108,7 +111,8 @@
 }
 
 .solution-section__advantage.scale-in.animate-in {
-  transform: none !important;
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* Специальные эффекты для изображений */
@@ -117,7 +121,8 @@
 }
 
 .solution-section__image-wrapper.fade-up.animate-in {
-  transform: none !important;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Специальные эффекты для контактов */
@@ -126,9 +131,14 @@
   transition-duration: 1s;
 }
 
-.contacts__info.fade-right.animate-in,
+.contacts__info.fade-right.animate-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .contacts__map.fade-left.animate-in {
-  transform: none !important;
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .contacts__item.fade-left {
@@ -136,7 +146,8 @@
 }
 
 .contacts__item.fade-left.animate-in {
-  transform: none !important;
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* Дополнительные эффекты для текста */
@@ -145,26 +156,81 @@
 }
 
 .solution-section__text.fade-left.animate-in {
-  transform: none !important;
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .solution-section__subtitle.fade-up.animate-in {
-  transform: none !important;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Плавное появление при первой загрузке */
 @keyframes fadeInInitial {
   from {
     opacity: 0;
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
 /* Эффект для футера */
 .footer {
   animation: fadeInInitial 1s ease-out;
+}
+
+/* Эффект для hero scroll indicator */
+@keyframes floatAnimation {
+  0%, 100% {
+    transform: translateY(0) translateX(-50%);
+  }
+  50% {
+    transform: translateY(-10px) translateX(-50%);
+  }
+}
+
+.hero__scroll.animate-in {
+  animation: floatAnimation 2s ease-in-out infinite;
+}
+
+/* Эффект мерцания для интерактивных элементов */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 3s infinite;
+}
+
+/* Pulse эффект для привлечения внимания */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
 }
 
 /* Адаптация для мобильных устройств - уменьшаем смещения */
@@ -200,7 +266,15 @@
   .fade-right,
   .scale-in,
   .rotate-in {
-    transition-duration: 0.6s !important;
+    transition-duration: 0.6s;
+  }
+
+  .hero__content.fade-up,
+  .solution-section__title.fade-down,
+  .infrastructure__header.fade-down,
+  .contacts__info.fade-right,
+  .contacts__map.fade-left {
+    transition-duration: 0.7s;
   }
 }
 
@@ -212,22 +286,27 @@
   .fade-right,
   .scale-in,
   .rotate-in {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .hero__scroll.animate-in {
+    animation: none;
+  }
+
+  .animate-shimmer,
+  .animate-pulse {
+    animation: none;
   }
 }
 
-/* Дополнительный эффект для hero scroll indicator */
-@keyframes floatAnimation {
-  0%, 100% {
-    transform: translateY(0) translateX(-50%);
-  }
-  50% {
-    transform: translateY(-10px) translateX(-50%);
-  }
-}
-
-.hero__scroll.animate-in {
-  animation: floatAnimation 2s ease-in-out infinite;
+/* Оптимизация производительности */
+.fade-up.animate-in,
+.fade-down.animate-in,
+.fade-left.animate-in,
+.fade-right.animate-in,
+.scale-in.animate-in,
+.rotate-in.animate-in {
+  will-change: auto;
 }

@@ -6,15 +6,30 @@
   left: 0;
   width: 100%;
   z-index: 1000;
-  transition: var(--transition-normal);
+  transition: all 0.3s ease;
   background: transparent;
   border-bottom: 1px solid var(--card-border);
+  
+  /* Анимация появления при загрузке - УСКОРЕНО */
+  animation: slideDownFadeIn 0.5s ease-out;
+}
+
+@keyframes slideDownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .header.scrolled {
   background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(20px);
   box-shadow: var(--shadow-lg);
+  border-bottom-color: rgba(255, 255, 255, 0.15);
 }
 
 .header__container {
@@ -24,6 +39,11 @@
   padding: 20px 40px;
   max-width: 1440px;
   margin: 0 auto;
+  transition: padding 0.3s ease;
+}
+
+.header.scrolled .header__container {
+  padding: 16px 40px;
 }
 
 .header__logo {
@@ -35,6 +55,42 @@
   color: var(--white);
   z-index: 1001;
   letter-spacing: -1px;
+  transition: all 0.3s ease;
+  position: relative;
+  
+  /* Анимация появления логотипа - УСКОРЕНО */
+  animation: fadeInScale 0.4s ease-out 0.2s both;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.header__logo::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent-gradient);
+  transition: width 0.3s ease;
+}
+
+.header__logo:hover::after {
+  width: 100%;
+}
+
+.header__logo:hover {
+  transform: scale(1.05);
+  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.15);
 }
 
 .header__logo-text {
@@ -56,6 +112,40 @@
 
 .header__menu-item {
   position: relative;
+  
+  /* Анимация появления пунктов меню с задержкой - УСКОРЕНО */
+  animation: fadeInUp 0.35s ease-out both;
+}
+
+.header__menu-item:nth-child(1) {
+  animation-delay: 0.25s;
+}
+
+.header__menu-item:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.header__menu-item:nth-child(3) {
+  animation-delay: 0.35s;
+}
+
+.header__menu-item:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.header__menu-item:nth-child(5) {
+  animation-delay: 0.45s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .header__menu-link {
@@ -64,11 +154,30 @@
   font-weight: 600;
   position: relative;
   padding: 8px 0;
-  transition: var(--transition-normal);
+  transition: all 0.3s ease;
+}
+
+.header__menu-link::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  z-index: -1;
+}
+
+.header__menu-link:hover::before {
+  width: 120%;
+  height: 200%;
 }
 
 .header__menu-link:hover {
-  color: var(--gray-300);
+  color: var(--gray-100);
 }
 
 .header__menu-link::after {
@@ -78,8 +187,8 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--white);
-  transition: var(--transition-normal);
+  background: var(--accent-gradient);
+  transition: width 0.3s ease;
 }
 
 .header__menu-link:hover::after,
@@ -99,6 +208,11 @@
   padding: 8px;
   cursor: pointer;
   z-index: 1001;
+  transition: transform 0.3s ease;
+}
+
+.header__burger:hover {
+  transform: scale(1.1);
 }
 
 .header__burger-line {
@@ -106,7 +220,11 @@
   height: 3px;
   background: var(--white);
   border-radius: 2px;
-  transition: var(--transition-normal);
+  transition: all 0.3s ease;
+}
+
+.header__burger:hover .header__burger-line {
+  background: var(--gray-200);
 }
 
 .header__burger.active .header__burger-line:nth-child(1) {
@@ -136,8 +254,13 @@
     padding: 16px 20px;
   }
   
+  .header.scrolled .header__container {
+    padding: 14px 20px;
+  }
+  
   .header__burger {
     display: flex;
+    animation: fadeInScale 0.4s ease-out 0.2s both;
   }
   
   .header__nav {
@@ -153,7 +276,7 @@
     justify-content: center;
     padding: 80px 32px 32px;
     gap: 48px;
-    transition: var(--transition-normal);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .header__nav.active {
@@ -167,9 +290,18 @@
     width: 100%;
   }
   
+  .header__menu-item {
+    animation: none;
+  }
+  
   .header__menu-link {
     font-size: 24px;
     width: 100%;
     text-align: center;
+    padding: 12px 0;
+  }
+
+  .header__menu-link:hover {
+    transform: scale(1.05);
   }
 }

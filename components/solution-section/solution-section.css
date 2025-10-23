@@ -110,20 +110,8 @@
   position: relative;
 }
 
-.solution-section__text::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 3px;
-  height: 0;
-  background: var(--accent-gradient);
-  transition: height 0.4s ease;
-}
-
-.solution-section__text:hover::before {
-  height: 100%;
-}
+/* УБИРАЕМ АНИМАЦИЮ ЛЕВОЙ ЛИНИИ ДЛЯ ТЕКСТОВЫХ БЛОКОВ */
+/* .solution-section__text::before убрали */
 
 .solution-section__text:hover {
   background: rgba(255, 255, 255, 0.06);
