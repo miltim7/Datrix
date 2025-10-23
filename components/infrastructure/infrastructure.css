@@ -2,13 +2,35 @@
 
 .infrastructure {
   padding: 120px 0;
-  background: var(--dark-bg);
+  background: var(--dark-variant-3);
   position: relative;
+  transition: background 0.5s ease;
+}
+
+/* Добавляем subtle gradient overlay при наведении на секцию */
+.infrastructure::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.infrastructure:hover::before {
+  opacity: 1;
 }
 
 .infrastructure__header {
   text-align: center;
   margin-bottom: 60px;
+  position: relative;
+  z-index: 1;
 }
 
 .infrastructure__title {
@@ -18,6 +40,13 @@
   color: var(--white);
   margin: 0 0 20px 0;
   letter-spacing: -1px;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+  display: inline-block;
+}
+
+.infrastructure__title:hover {
+  transform: translateY(-4px);
+  text-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
 }
 
 .infrastructure__description {
@@ -29,12 +58,19 @@
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  transition: color 0.3s ease;
+}
+
+.infrastructure__header:hover .infrastructure__description {
+  color: var(--gray-200);
 }
 
 .infrastructure__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 32px;
+  position: relative;
+  z-index: 1;
 }
 
 .infrastructure__card {
@@ -42,17 +78,54 @@
   border: 1px solid var(--card-border);
   border-radius: var(--border-radius-lg);
   overflow: hidden;
-  transition: var(--transition-normal);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   cursor: pointer;
   display: flex;
   flex-direction: column;
 }
 
+/* Разные оттенки для визуального разделения карточек */
+.infrastructure__card:nth-child(4n+1) {
+  background: rgba(20, 20, 20, 0.9);
+}
+
+.infrastructure__card:nth-child(4n+2) {
+  background: rgba(18, 18, 18, 0.9);
+}
+
+.infrastructure__card:nth-child(4n+3) {
+  background: rgba(22, 22, 22, 0.9);
+}
+
+.infrastructure__card:nth-child(4n+4) {
+  background: rgba(16, 16, 16, 0.9);
+}
+
+/* Эффект свечения при наведении */
+.infrastructure__card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--accent-gradient);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+  z-index: 2;
+}
+
+.infrastructure__card:hover::before {
+  transform: scaleX(1);
+}
+
 .infrastructure__card:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-xl);
+  border-color: var(--card-border-hover);
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: var(--shadow-glow-white);
+  background: rgba(26, 26, 26, 0.95);
 }
 
 .infrastructure__card-image {
@@ -64,6 +137,21 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  position: relative;
+}
+
+.infrastructure__card-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+}
+
+.infrastructure__card:hover .infrastructure__card-image::before {
+  opacity: 1;
 }
 
 .infrastructure__card-image img {
@@ -71,21 +159,27 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: var(--transition-slow);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
 }
 
 .infrastructure__card:hover .infrastructure__card-image img {
-  transform: scale(1.05);
+  transform: scale(1.08);
+  filter: brightness(1.1);
 }
 
 .infrastructure__card-content {
   padding: 24px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(10px);
   border-top: 1px solid var(--card-border);
   flex-grow: 1;
   display: flex;
   align-items: center;
+  transition: background 0.3s ease;
+}
+
+.infrastructure__card:hover .infrastructure__card-content {
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .infrastructure__card-title {
@@ -94,6 +188,12 @@
   line-height: 1.4;
   color: var(--white);
   margin: 0;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.infrastructure__card:hover .infrastructure__card-title {
+  transform: translateX(4px);
+  color: var(--gray-100);
 }
 
 .infrastructure__card-overlay {
@@ -102,16 +202,17 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.97);
+  backdrop-filter: blur(20px);
   padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   opacity: 0;
-  transition: var(--transition-normal);
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
   overflow-y: auto;
+  border: 1px solid var(--card-border-hover);
 }
 
 .infrastructure__card:hover .infrastructure__card-overlay {
@@ -126,6 +227,8 @@
   color: var(--white);
   margin: 0 0 12px 0;
   flex-shrink: 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .infrastructure__card-overlay-text {
@@ -149,10 +252,17 @@
 .infrastructure__card-overlay::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 3px;
+  transition: background 0.3s ease;
 }
 
 .infrastructure__card-overlay::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
+}
+
+/* Firefox */
+.infrastructure__card-overlay {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
 }
 
 @media (max-width: 1400px) {
@@ -230,6 +340,10 @@
     cursor: default;
   }
 
+  .infrastructure__card:hover {
+    transform: none;
+  }
+
   .infrastructure__card-content {
     padding: 20px;
   }
@@ -241,9 +355,10 @@
   .infrastructure__card-overlay {
     position: static;
     opacity: 1;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     padding: 20px;
     border-top: 1px solid var(--card-border);
+    border: none;
     overflow-y: visible;
   }
 
